@@ -58,13 +58,14 @@ def login(data: LoginData, db: Session = Depends(get_db)):
     if not verify_password(data.password, user.hashed_password):
         raise HTTPException(status_code=400, detail="Invalid password")
 
-    token = create_access_token({
+    access_token = create_access_token({
         "user_id": user.id
     })
-
+    
     return {
-        "access_token": token,
-        "token_type": "bearer"
+        "access_token": access_token,
+        "token_type": "bearer",
+        "username": user.username
     }
 
 class ChatRequest(BaseModel):

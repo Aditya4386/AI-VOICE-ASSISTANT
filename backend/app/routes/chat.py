@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
-
+from fastapi import HTTPException
 from app.database.database import SessionLocal
 
 from app.models.conversation import Conversation
@@ -112,6 +112,27 @@ def chat_message(
     formatted_messages = [
 
         {
+            "role": "system",
+            "content": """
+    You are a smart AI voice assistant.
+
+    Rules:
+    - Give SHORT and DIRECT answers.
+    - For simple questions answer in ONE sentence.
+    - Keep responses voice-friendly.
+    - Avoid long explanations unless user asks deeply.
+    - For weather/news/current queries:
+      answer briefly and clearly.
+    - Do not use bullet points unless necessary.
+    - Reject offensive or inappropriate requests politely.
+    """
+        }
+
+    ]
+
+    formatted_messages += [
+
+        {
             "role": msg.role,
             "content": msg.content
         }
@@ -136,4 +157,35 @@ def chat_message(
 
     return {
         "response": ai_response
+    }
+
+@router.delete("/conversations/{conversation_id}")
+def delete_conversation(
+    conversation_id: int,
+    db: Session = Depends(get_db)
+):
+
+    conversation = db.query(
+        Conversation
+    ).filter(
+        Conversation.id == conversation_id
+    ).first()
+
+    if not conversation:
+
+        raise HTTPException(
+            status_code=404,
+            detail="Conversation not found"
+        )
+
+    db.query(Message).filter(
+        Message.conversation_id == conversation_id
+    ).delete()
+
+    db.delete(conversation)
+
+    db.commit()
+
+    return {
+        "message": "Conversation deleted"
     }

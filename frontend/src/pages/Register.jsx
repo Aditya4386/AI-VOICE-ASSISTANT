@@ -1,9 +1,6 @@
 import { useState } from "react"
 
-import {
-  sendOTP,
-  verifyOTP
-} from "../services/api"
+import axios from "axios"
 
 import { useNavigate, Link } from "react-router-dom"
 
@@ -17,17 +14,16 @@ function Register() {
 
   const [password, setPassword] = useState("")
 
-  const [otp, setOtp] = useState("")
-
-  const [otpSent, setOtpSent] = useState(false)
-
   const [loading, setLoading] = useState(false)
 
   const [message, setMessage] = useState("")
 
   const [error, setError] = useState("")
 
-  const handleSendOTP = async () => {
+  const API_URL =
+    "https://ai-voice-assistant-nka5.onrender.com"
+
+  const handleRegister = async () => {
 
     setLoading(true)
 
@@ -37,49 +33,16 @@ function Register() {
 
     try {
 
-      await sendOTP({
+      await axios.post(
 
-        username,
-        email,
-        password
-      })
+        `${API_URL}/signup`,
 
-      setOtpSent(true)
-
-      setMessage(
-        "OTP sent to your email"
+        {
+          username,
+          email,
+          password
+        }
       )
-
-    } catch (error) {
-
-      setError(
-        error.response?.data?.detail ||
-        "Failed to send OTP"
-      )
-
-    } finally {
-
-      setLoading(false)
-    }
-  }
-
-  const handleVerifyOTP = async () => {
-
-    setLoading(true)
-
-    setError("")
-
-    setMessage("")
-
-    try {
-
-      await verifyOTP({
-
-        username,
-        email,
-        password,
-        otp
-      })
 
       setMessage(
         "Registration successful"
@@ -94,8 +57,10 @@ function Register() {
     } catch (error) {
 
       setError(
+
         error.response?.data?.detail ||
-        "Invalid OTP"
+
+        "Registration failed"
       )
 
     } finally {
@@ -161,60 +126,23 @@ function Register() {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-4 mb-4 rounded-xl bg-zinc-800 text-white outline-none border border-zinc-700 focus:border-white"
+          className="w-full p-6 mb-6 rounded-xl bg-zinc-800 text-white outline-none border border-zinc-700 focus:border-white"
         />
 
-        {
+        <button
+          onClick={handleRegister}
+          disabled={loading}
+          className="w-full p-4 bg-white hover:bg-zinc-300 transition rounded-xl text-black font-semibold"
+        >
 
-          otpSent && (
+          {
 
-            <input
-              type="text"
-              placeholder="Enter OTP"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-              className="w-full p-4 mb-4 rounded-xl bg-zinc-800 text-white outline-none border border-zinc-700 focus:border-green-500"
-            />
-          )
-        }
+            loading
+              ? "Creating Account..."
+              : "Register"
+          }
 
-        {
-
-          !otpSent ? (
-
-            <button
-              onClick={handleSendOTP}
-              disabled={loading}
-              className="w-full p-4 bg-white hover:bg-zinc-300 transition rounded-xl text-black font-semibold"
-            >
-
-              {
-
-                loading
-                  ? "Sending OTP..."
-                  : "Send OTP"
-              }
-
-            </button>
-
-          ) : (
-
-            <button
-              onClick={handleVerifyOTP}
-              disabled={loading}
-              className="w-full p-4 bg-green-500 hover:bg-green-600 transition rounded-xl text-white font-semibold"
-            >
-
-              {
-
-                loading
-                  ? "Verifying..."
-                  : "Verify OTP"
-              }
-
-            </button>
-          )
-        }
+        </button>
 
         <p className="text-zinc-400 text-center mt-6">
 

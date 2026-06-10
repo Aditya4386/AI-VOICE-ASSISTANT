@@ -1,16 +1,18 @@
+````markdown
 # 🎙️ AI VOICE ASSISTANT
 
-An AI-powered voice assistant web application that enables users to interact using both **text and voice**.  
-The assistant can answer queries, speak responses aloud, maintain chat history, and provide secure authentication with email OTP verification.
+An AI-powered voice assistant web application that enables users to interact using both **text and voice**.
+
+The assistant can answer queries, speak responses aloud, maintain chat history, and provide secure authentication.
 
 ---
 
-## 🌐 Live Demo
+# 🌐 Live Demo
 
-### Frontend
+## Frontend
 https://ai-voice-assistant-project.netlify.app/
 
-### Backend API Docs
+## Backend API Docs
 https://ai-voice-assistant-nka5.onrender.com/docs
 
 ---
@@ -19,9 +21,9 @@ https://ai-voice-assistant-nka5.onrender.com/docs
 
 ## 🔐 Authentication System
 - User Registration & Login
-- Email OTP Verification
 - JWT-Based Authentication
 - Secure Password Hashing
+- Protected Routes
 
 ## 🤖 AI Assistant
 - AI-Powered Conversations
@@ -98,27 +100,30 @@ AI-VOICE-ASSISTANT/
 │
 ├── docker-compose.yml
 └── README.md
-```
+````
+
+---
 
 # 🛡️ Guardrails
 
 The assistant is designed with safety-focused guardrails to block offensive or inappropriate requests.
 
 ## 🚫 Blocked Categories
-- Violence
-- Terrorism
-- Harmful Requests
-- Offensive Prompts
+
+* Violence
+* Terrorism
+* Harmful Requests
+* Offensive Prompts
 
 ---
 
 # 🚀 Future Improvements
 
-- Real-Time Weather Integration
-- Multi-Language Voice Support
-- Better Conversation Memory
-- AI Streaming Responses
-- Mobile Application Version
+* Real-Time Weather Integration
+* Multi-Language Voice Support
+* Better Conversation Memory
+* AI Streaming Responses
+* Mobile Application Version
 
 ---
 
@@ -126,7 +131,7 @@ The assistant is designed with safety-focused guardrails to block offensive or i
 
 ## Aditya Pawar
 
-GitHub:  
+GitHub:
 https://github.com/Aditya4386
 
 ---
@@ -134,3 +139,6 @@ https://github.com/Aditya4386
 # 📄 License
 
 This project was developed for educational and internship assignment purposes.
+
+```
+```
